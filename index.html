@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Line Check — Monthly product mix reporting for independent restaurants</title>
+<meta name="description" content="Upload your POS product mix export and get a month-over-month report: category performance, top sellers, biggest movers, and delivery separated from in-house. From $59/month.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --char:#12211F; --steel:#5C6B67; --mist:#9BA8A4; --paper:#FAF8F4; --rail:#E3DFD6;
+  --amber:#E0A03A; --grow:#2E6B4F; --brick:#A8412C;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--char);font-family:'IBM Plex Sans',system-ui,sans-serif;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;line-height:1.15;margin:0}
+mono, .mono{font-family:'IBM Plex Mono',monospace}
+a{color:inherit}
+.btn{display:inline-block;padding:13px 26px;border-radius:8px;font-weight:600;text-decoration:none;
+  font-family:'IBM Plex Sans',sans-serif;font-size:15px;transition:opacity .15s}
+.btn:hover{opacity:.85}
+.btn-primary{background:var(--char);color:var(--paper)}
+.btn-ghost{background:transparent;color:var(--char);border:1.5px solid var(--rail)}
+
+header{position:sticky;top:0;background:rgba(250,248,244,.92);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--rail);z-index:10}
+.hdr-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+.logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;letter-spacing:.01em;text-decoration:none}
+.logo b{color:var(--char)}.logo i{color:var(--steel);font-style:normal;font-weight:500}
+nav{display:flex;gap:28px;font-size:14px;font-weight:500}
+nav a{text-decoration:none;color:var(--steel)}
+nav a:hover{color:var(--char)}
+
+.hero{padding:72px 0 40px}
+.hero h1{font-size:clamp(32px,4.6vw,50px);max-width:780px}
+.hero h1 em{color:var(--amber);font-style:normal}
+.hero p{max-width:560px;color:var(--steel);font-size:17px;margin-top:18px}
+.hero-cta{display:flex;gap:14px;margin-top:28px;flex-wrap:wrap}
+.hero-fine{margin-top:16px;font-size:13px;color:var(--steel)}
+.hero-fine .mono{color:var(--char)}
+
+.mover-card{margin-top:44px;background:#fff;border:1px solid var(--rail);border-radius:12px;padding:24px 26px}
+.mover-head{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--steel);margin-bottom:14px}
+.mover-row{display:flex;justify-content:space-between;padding:9px 0;border-top:1px solid var(--rail);font-size:15px}
+.mover-row:first-of-type{border-top:none}
+.mover-row .up{color:var(--grow);font-family:'IBM Plex Mono',monospace}
+.mover-row .down{color:var(--brick);font-family:'IBM Plex Mono',monospace}
+.mover-foot{margin-top:10px;font-size:12px;color:var(--mist)}
+
+section{padding:56px 0}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);font-weight:600;margin-bottom:8px}
+.sec-h{font-size:clamp(24px,3vw,32px);max-width:520px}
+.sec-p{color:var(--steel);max-width:560px;margin-top:10px}
+
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:32px}
+.card{background:#fff;border:1px solid var(--rail);border-radius:10px;padding:22px}
+.card h3{font-size:16px;margin-bottom:8px}
+.card p{color:var(--steel);font-size:14px;margin:0;line-height:1.55}
+
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-top:32px}
+.step .mono{color:var(--amber);font-size:12px;letter-spacing:.06em}
+.step h3{margin-top:8px;font-size:17px}
+.step p{color:var(--steel);font-size:14px;margin-top:6px}
+
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:32px}
+.plan{background:#fff;border:1px solid var(--rail);border-radius:12px;padding:28px}
+.plan.feat{border-color:var(--char)}
+.plan .tag{font-size:12px;color:var(--steel);text-transform:uppercase;letter-spacing:.05em}
+.plan .price{font-family:'Space Grotesk',sans-serif;font-size:38px;font-weight:700;margin:6px 0 0}
+.plan .per{color:var(--steel);font-size:14px;font-weight:400}
+.plan ul{list-style:none;margin:18px 0 24px;padding:0;font-size:14px;color:var(--char)}
+.plan li{padding:6px 0;padding-left:20px;position:relative}
+.plan li:before{content:"—";position:absolute;left:0;color:var(--mist)}
+.plan .btn{width:100%;text-align:center}
+
+.faq{margin-top:28px;border-top:1px solid var(--rail)}
+.faq-item{border-bottom:1px solid var(--rail);padding:20px 0}
+.faq-item h3{font-size:15.5px}
+.faq-item p{color:var(--steel);font-size:14.5px;margin-top:8px}
+
+.cta-band{background:var(--char);color:var(--paper);border-radius:16px;padding:44px 36px;margin-top:8px}
+.cta-band h2{color:var(--paper);font-size:clamp(22px,3vw,30px);max-width:480px}
+.cta-band p{color:var(--mist);max-width:480px;margin-top:12px}
+.cta-band .btn-primary{background:var(--amber);color:var(--char)}
+.cta-band .contact-line{margin-top:22px;font-size:14px}
+.cta-band a.mail{color:var(--amber);text-decoration:none}
+
+footer{border-top:1px solid var(--rail);padding:28px 0;font-size:13px;color:var(--steel)}
+.foot-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.foot-links{display:flex;gap:18px;flex-wrap:wrap}
+.foot-links a{color:var(--steel);text-decoration:none}
+.foot-links a:hover{color:var(--char)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hdr-inner">
+    <a href="#top" class="logo"><b>LINE</b><i>CHECK</i></a>
+    <nav>
+      <a href="#report">The report</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Get in touch</a>
+    </nav>
+  </div>
+</header>
+
+<div id="top"></div>
+<div class="wrap">
+
+  <section class="hero" style="padding-bottom:0">
+    <h1>Your POS knows what sold. It won't tell you <em>what changed</em>.</h1>
+    <p>Line Check turns your product mix export into a month-over-month report — category performance, top sellers, biggest movers, and third-party delivery kept separate from in-house.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="sample-pmix-report.html">See a sample report</a>
+      <a class="btn btn-ghost" href="#pricing">Pricing</a>
+    </div>
+    <div class="hero-fine">From <span class="mono">$59</span>/month · 14-day free trial · Cancel anytime</div>
+
+    <div class="mover-card">
+      <div class="mover-head"><span>Biggest movers</span><span>July vs June · 100+ units</span></div>
+      <div class="mover-row"><span>Beer-Cheese Pretzel</span><span class="up mono">+64.2%</span></div>
+      <div class="mover-row"><span>Draft Pint — House Lager</span><span class="up mono">+31.9%</span></div>
+      <div class="mover-row"><span>Chicken Sandwich</span><span class="up mono">+27.8%</span></div>
+      <div class="mover-row"><span>Harvest Salad</span><span class="down mono">−15.2%</span></div>
+      <div class="mover-row"><span>Ribeye, 12oz</span><span class="down mono">−18.1%</span></div>
+      <div class="mover-foot">Sample data · Millrace Tavern</div>
+    </div>
+  </section>
+
+  <section id="report">
+    <div class="eyebrow">What's in the report</div>
+    <h2 class="sec-h">One report, every month</h2>
+    <div class="grid6">
+      <div class="card"><h3>Category rollup</h3><p>Every category with units, net sales, share of total, and change against last month. Appetizers up, salads down, in one place.</p></div>
+      <div class="card"><h3>Top sellers, with rank change</h3><p>Your top ten by net sales — and whether each one climbed or slipped since last month. Rank movement is where the story usually is.</p></div>
+      <div class="card"><h3>Biggest movers</h3><p>Items that jumped or dropped the most, filtered to real volume so a single catering order doesn't top the list.</p></div>
+      <div class="card"><h3>Delivery kept separate</h3><p>Third-party delivery orders skew toward a narrow set of items at different prices. Mixed in, they make your menu look like it's shifting when it isn't. We report both, separately.</p></div>
+      <div class="card"><h3>Price and mix effects</h3><p>Average item price alongside unit volume, so you can tell a real sales increase from a price increase.</p></div>
+      <div class="card"><h3>Plain-language notes</h3><p>A short written read on what actually changed and what's worth a look — not just a wall of numbers.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">How it works</div>
+    <h2 class="sec-h">About five minutes a month</h2>
+    <div class="steps">
+      <div class="step"><div class="mono">STEP 01</div><h3>Send your export</h3><p>Run the product mix report your POS already produces — Toast, Square, Clover, Aloha, most others — and send us the file.</p></div>
+      <div class="step"><div class="mono">STEP 02</div><h3>We map your menu once</h3><p>Your categories, your naming, your delivery items. Set up at the start so every month after is automatic.</p></div>
+      <div class="step"><div class="mono">STEP 03</div><h3>Get the report</h3><p>Your month-over-month report lands in your inbox. Read it on a phone in five minutes or print it for the manager meeting.</p></div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="eyebrow">Pricing</div>
+    <h2 class="sec-h">Monthly. No contract.</h2>
+    <div class="plans">
+      <div class="plan">
+        <div class="tag">Single location</div>
+        <div class="price">$59<span class="per">/mo</span></div>
+        <ul>
+          <li>Monthly product mix report</li>
+          <li>Category rollup and top sellers</li>
+          <li>Movers and delivery split</li>
+          <li>Email support</li>
+        </ul>
+        <a class="btn btn-primary" href="https://buy.stripe.com/bJe8wR3JJ3wOe217DLbAs00">Start free trial</a>
+      </div>
+      <div class="plan feat">
+        <div class="tag">Group · up to 5 locations</div>
+        <div class="price">$149<span class="per">/mo</span></div>
+        <ul>
+          <li>Everything in Single Location</li>
+          <li>Side-by-side location comparison</li>
+          <li>Group-level rollup</li>
+          <li>Priority support</li>
+        </ul>
+        <a class="btn btn-primary" href="https://buy.stripe.com/6oUcN7gwv4AS7DDbU1bAs01">Start free trial</a>
+      </div>
+      <div class="plan">
+        <div class="tag">Optional</div>
+        <div class="price">$400<span class="per">&nbsp;one-time</span></div>
+        <ul>
+          <li>POS export mapping</li>
+          <li>Categories configured to your menu</li>
+          <li>First report built and delivered</li>
+          <li>Walkthrough call</li>
+        </ul>
+        <a class="btn btn-ghost" href="https://buy.stripe.com/dRm6oJ4NN3wOcXX9LTbAs02">Ask about setup</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Questions</div>
+    <div class="faq">
+      <div class="faq-item"><h3>Which POS systems work?</h3><p>Any system that can export a product mix or item sales report as a spreadsheet or CSV — which is nearly all of them. If yours exports something unusual, send a sample and we'll tell you honestly whether it works before you pay anything.</p></div>
+      <div class="faq-item"><h3>Do I need to connect Line Check to my POS?</h3><p>No. You send a file you export yourself. Line Check never connects to your POS, your bank, or your payment processing, and never sees customer or payment data.</p></div>
+      <div class="faq-item"><h3>How do I cancel?</h3><p>Through a self-service billing portal, any time, without contacting us. Your subscription runs to the end of the period you've paid for and then stops. There's no contract and no cancellation fee. See our <a href="terms.html">terms and refund policy</a>.</p></div>
+      <div class="faq-item"><h3>What's your refund policy?</h3><p>If a report doesn't arrive or isn't usable, that month is refunded — email and it's handled. The 14-day trial is there so you can see a real report built from your own data before any card is charged. Full policy on the <a href="terms.html">terms page</a>.</p></div>
+      <div class="faq-item"><h3>Is the setup fee required?</h3><p>No. It's for restaurants that want their menu mapping, category structure, and first report handled for them rather than doing the initial setup themselves.</p></div>
+      <div class="faq-item"><h3>Who's behind this?</h3><p>Line Check is run by Blake, an independent data analyst based in central Illinois. It's a small operation on purpose — you deal with the person who builds the reports.</p></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="cta-band">
+      <h2>Send a month of data. Get a real report back.</h2>
+      <p>No demo call required first. Email a product mix export and we'll build the actual report from your numbers so you can see whether it's useful — before anything is charged.</p>
+      <a class="btn btn-primary" href="mailto:blake@linecheckco.com">Email us</a>
+      <div class="contact-line">Or reach out directly — <a class="mail" href="mailto:blake@linecheckco.com">blake@linecheckco.com</a></div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div>Line Check · Product mix reporting for independent restaurants · Central Illinois</div>
+    <div class="foot-links">
+      <a href="mailto:blake@linecheckco.com">blake@linecheckco.com</a>
+      <a href="terms.html">Terms &amp; refund policy</a>
+      <a href="https://billing.stripe.com/p/login/bJe8wR3JJ3wOe217DLbAs00">Manage billing</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
